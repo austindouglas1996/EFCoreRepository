@@ -18,9 +18,6 @@ namespace One.Backend.Service
                 throw new ArgumentException("A user already exists by that id or name.");
             }
 
-            if (entity.name == "Joshua")
-                Console.WriteLine("Booooooooooooooooomer");
-
             await base.AddAsync(entity);
         }
     }
