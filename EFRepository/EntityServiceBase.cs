@@ -52,7 +52,6 @@ namespace EFRepository
         public virtual async Task AddAsync(TEntity entity)
         {
             await _repository.AddAsync(entity);
-            await _repository.SaveChangesAsync();
         }
 
         /// <summary>
@@ -60,10 +59,9 @@ namespace EFRepository
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public virtual async Task UpdateAsync(TEntity entity)
+        public virtual void UpdateAsync(TEntity entity)
         {
             _repository.UpdateAsync(entity);
-            await _repository.SaveChangesAsync();
         }
 
         /// <summary>
@@ -77,7 +75,6 @@ namespace EFRepository
             if (entity != null)
             {
                 await _repository.RemoveAsync(entity);
-                await _repository.SaveChangesAsync();
             }
         }
 

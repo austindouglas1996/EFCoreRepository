@@ -16,7 +16,7 @@ namespace EFRepository
         Task<TEntity> GetAsync(TKey id);
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task AddAsync(TEntity entityDto);
-        Task UpdateAsync(TEntity entityDto);
+        void UpdateAsync(TEntity entityDto);
         Task RemoveAsync(TKey id);
         Task SaveChangesAsync();
     }

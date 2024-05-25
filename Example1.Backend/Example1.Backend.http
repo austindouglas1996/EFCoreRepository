@@ -1,0 +1,6 @@
+@Example1.Backend_HostAddress = http://localhost:5211
+
+GET {{Example1.Backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
