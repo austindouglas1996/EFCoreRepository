@@ -1,12 +1,12 @@
 ﻿using EFRepository;
-using Example1.Backend.Repository;
+using One.Backend.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Example1.Backend
+namespace One.Backend
 {
     public class AppWorker : IAppWorker
     {

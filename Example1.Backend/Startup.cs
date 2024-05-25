@@ -1,7 +1,6 @@
 ﻿using EFRepository;
-using Example1.Backend.Model;
-using Example1.Backend.Repository;
-using Example1.Backend.Service;
+using One.Backend.Repository;
+using One.Backend.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -10,8 +9,9 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
 using System.Threading.Tasks;
+using One.Shared.Model;
 
-namespace Example1.Backend
+namespace One.Backend
 {
     public class Startup
     {

@@ -1,9 +1,9 @@
-﻿using Example1.Backend.Model;
-using Example1.Backend.Service;
+﻿using One.Shared.Model;
+using One.Backend.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Example1.Backend.Controllers
+namespace One.Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

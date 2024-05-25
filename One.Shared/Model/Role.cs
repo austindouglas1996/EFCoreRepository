@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Example1.Backend.Model
+namespace One.Shared.Model
 {
     public enum Role
     {

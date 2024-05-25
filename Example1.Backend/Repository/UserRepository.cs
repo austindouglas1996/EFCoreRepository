@@ -1,12 +1,12 @@
 ﻿using EFRepository;
-using Example1.Backend.Model;
+using One.Shared.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Example1.Backend.Repository
+namespace One.Backend.Repository
 {
     public class UserRepository(AppContext context) : Repository<AppContext, User, int>(context)
     {

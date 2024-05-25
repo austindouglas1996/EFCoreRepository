@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Example1.Backend
+namespace One.Backend
 {
     public class AppContextFactory : IDesignTimeDbContextFactory<AppContext>
     {

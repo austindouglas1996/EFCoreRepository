@@ -1,0 +1,41 @@
+﻿@page "/add-user"
+@using One.Frontend.Services
+@using One.Shared.Model
+@inject UserWebService UserService
+
+<h3>Add New User</h3>
+
+<EditForm Model="newUser" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="name">Name</label>
+        <InputText id="name" class="form-control" @bind-Value="newUser.name" />
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <InputText id="email" class="form-control" @bind-Value="newUser.email" />
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <InputText id="password" type="password" class="form-control" @bind-Value="newUser.password" />
+    </div>
+    <div class="form-group">
+        <label for="age">Age</label>
+        <InputNumber id="age" class="form-control" @bind-Value="newUser.age" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add User</button>
+</EditForm>
+
+@code {
+    private User newUser = new User();
+
+    private async Task HandleValidSubmit()
+    {
+        await UserService.AddUser(newUser);
+        newUser = new User(); // Reset the form
+    }
+}
+
