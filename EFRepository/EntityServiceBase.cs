@@ -12,9 +12,9 @@ namespace EFRepository
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <typeparam name="TKey"></typeparam>
-    public abstract class EntityServiceBase<TRepository, TEntity, TKey> : IEntityService<TEntity, TKey>
-        where TEntity : class, IEntityT<TKey>
-        where TRepository : class, IRepository<TEntity, TKey>
+    public abstract class EntityServiceBase<TRepository, TKey, TEntity> : IEntityService<TKey,TEntity>
+        where TEntity : class, IEntity<TKey>
+        where TRepository : class, IRepository<TKey, TEntity>
     {
         protected TRepository Repository
         {

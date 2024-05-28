@@ -16,25 +16,26 @@ namespace EFRepository
     /// <typeparam name="TDbContext">The database context that belongs to this repository.</typeparam>
     /// <typeparam name="TEntity">The entity to include in this repository.</typeparam>
     /// <typeparam name="TKey">Required for filtering methods like <see cref="FindAsync(Expression{Func{TEntity, bool}})"/>.</typeparam>
-    public abstract class Repository<TDbContext, TEntity, TKey> : IRepository<TEntity, TKey>
-        where TDbContext : DbContext
-        where TEntity : class, IEntityT<TKey>
+    public abstract class Repository<TContext, TWorker, TKey, TEntity> : IRepository<TKey,TEntity>
+        where TContext : DbContext
+        where TWorker : IWorker<TContext>
+        where TEntity : class, IEntity<TKey>
     {
         /// <summary>
         /// Database context that this repository is defined in.
         /// </summary>
-        public TDbContext Context { get; private set; }
+        public TWorker Worker { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Repository{TDbContext, TEntity, TKey}"/> class.
         /// </summary>
-        /// <param name="context"></param>
-        public Repository(TDbContext context)
+        /// <param name="worker"></param>
+        public Repository(TWorker worker)
         {
-            if (context == null)
+            if (worker == null)
                 throw new ArgumentNullException("Context is null.");
 
-            this.Context = context;
+            this.Worker = worker;
         }
 
         /// <summary>
@@ -42,46 +43,46 @@ namespace EFRepository
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
-        public async Task<TEntity> GetAsync(TKey ID) => await Context.Set<TEntity>().FindAsync(ID);
+        public async Task<TEntity> GetAsync(TKey ID) => await this.Worker.Context.Set<TEntity>().FindAsync(ID);
 
         /// <summary>
         /// Gets a list of all entities within the repository async.
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<TEntity>> GetAllAsync() => await this.Context.Set<TEntity>().ToListAsync();
+        public async Task<IEnumerable<TEntity>> GetAllAsync() => await this.Worker.Context.Set<TEntity>().ToListAsync();
 
         /// <summary>
         /// Finds a group of entities based on a predicate function.
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate) => await Context.Set<TEntity>().Where(predicate).ToListAsync();
+        public async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate) => await this.Worker.Context.Set<TEntity>().Where(predicate).ToListAsync();
 
         /// <summary>
         /// Returns the first or default of a <see cref="TEntity"/> based on an expression.
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate) => await Context.Set<TEntity>().FirstOrDefaultAsync(predicate);
+        public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate) => await this.Worker.Context.Set<TEntity>().FirstOrDefaultAsync(predicate);
 
         /// <summary>
         /// Returns one entity or default value based on a predicate function.
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public async Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate) => await Context.Set<TEntity>().SingleOrDefaultAsync(predicate);
+        public async Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate) => await this.Worker.Context.Set<TEntity>().SingleOrDefaultAsync(predicate);
 
         /// <summary>
         /// Adds a new child to the repository.
         /// </summary>
         /// <param name="entity"></param>
-        public async Task AddAsync(TEntity entity) => await this.Context.Set<TEntity>().AddAsync(entity);
+        public async Task AddAsync(TEntity entity) => await this.Worker.Context.Set<TEntity>().AddAsync(entity);
 
         /// <summary>
         /// Adds a collection of entities to the repository.
         /// </summary>
         /// <param name="entities"></param>
-        public async Task AddRangeAsync(params TEntity[] entities) => await this.Context.Set<TEntity>().AddRangeAsync(entities);
+        public async Task AddRangeAsync(params TEntity[] entities) => await this.Worker.Context.Set<TEntity>().AddRangeAsync(entities);
 
         /// <summary>
         /// Edit an entity within the repository async.
@@ -89,14 +90,14 @@ namespace EFRepository
         /// <param name="newEntity"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public void UpdateAsync(TEntity newEntity) => this.Context.Update(newEntity);
+        public void UpdateAsync(TEntity newEntity) => this.Worker.Context.Update(newEntity);
 
         /// <summary>
         /// Edit a range of entities within the repository async.
         /// </summary>
         /// <param name="entities"></param>
         /// <returns></returns>
-        public void UpdateRangeAsync(params TEntity[] entities) => this.Context.Set<TEntity>().UpdateRange(entities);
+        public void UpdateRangeAsync(params TEntity[] entities) => this.Worker.Context.Set<TEntity>().UpdateRange(entities);
 
         /// <summary>
         /// Remove an entity from the repository.
@@ -108,7 +109,7 @@ namespace EFRepository
             if (await this.GetAsync(oldEntity.Id) == null)
                 return false;
 
-            this.Context.Set<TEntity>().Remove(oldEntity);
+            this.Worker.Context.Set<TEntity>().Remove(oldEntity);
             return true;
         }
 
@@ -116,12 +117,12 @@ namespace EFRepository
         /// Returns an array of elements based on a predicate.
         /// </summary>
         /// <param name="predicate"></param>
-        public async Task<IEnumerable<TEntity>> WhereAsync(Expression<Func<TEntity, bool>> predicate) => await Context.Set<TEntity>().Where(predicate).ToListAsync();
+        public async Task<IEnumerable<TEntity>> WhereAsync(Expression<Func<TEntity, bool>> predicate) => await this.Worker.Context.Set<TEntity>().Where(predicate).ToListAsync();
 
         /// <summary>
         /// Allows you to save the collection of entities.
         /// </summary>
         /// <remarks>Not supported in a List repository.</remarks>
-        public async Task SaveChangesAsync() => await this.Context.SaveChangesAsync();
+        public async Task SaveChangesAsync() => await this.Worker.Context.SaveChangesAsync();
     }
 }

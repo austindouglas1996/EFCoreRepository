@@ -11,7 +11,7 @@ namespace EFRepository
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <typeparam name="TKey"></typeparam>
-    public interface IEntityService<TEntity, TKey> : IDisposable
+    public interface IEntityService<TKey,TEntity> : IDisposable
     {
         Task<TEntity> GetAsync(TKey id);
         Task<IEnumerable<TEntity>> GetAllAsync();

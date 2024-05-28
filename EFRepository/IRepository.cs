@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EFRepository
 {
-    public interface IRepository<TEntity, TKey> where TEntity : IEntityT<TKey>
+    public interface IRepository<TKey, TEntity> where TEntity : IEntity<TKey>
     {
         Task<TEntity> GetAsync(TKey ID);
         Task<IEnumerable<TEntity>> GetAllAsync();

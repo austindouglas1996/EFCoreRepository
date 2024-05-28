@@ -12,10 +12,10 @@ namespace EFRepository
     /// of <see cref="IRepository{TEntity, TKey}"/> instances.
     /// </summary>
     /// <typeparam name="TContext"></typeparam>
-    public interface IWorker<TContext> : IDisposable
+    public interface IWorker<TContext>
         where TContext : DbContext
     {
         public TContext Context { get; }
-        public Task<bool> SaveChanges();
+        public Task<int> SaveChanges();
     }
 }

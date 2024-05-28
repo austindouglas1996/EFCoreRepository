@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,8 +11,8 @@ namespace EFRepository
     /// Defines an entity item when being used in an database. TKey represents the primary key type between int,string,guid.
     /// </summary>
     /// <typeparam name="TKey">The type of the primary key.</typeparam>
-    public interface IEntityT<TKey>
+    public interface IEntity<TKey>
     {
-        TKey Id { get; set; }
+        public TKey Id { get; set; }
     }
 }
